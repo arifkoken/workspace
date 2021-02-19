@@ -1,0 +1,33 @@
+version: "3.8"
+services:
+  workspace-db-mssql:
+    container_name: workspace-db-mssql
+    image: microsoft/mssql-server-linux:2017-CU13
+    restart: always
+    volumes: 
+      - workspace-db-mssql-volume:/var/opt/mssql/data
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssword
+    ports: 
+      - 1434:1433
+    networks: 
+      - workspace-network 
+  workspace-app-api:
+    container_name: workspace-app-api
+    build: ./workspace.app.api
+    restart: always
+    environment: 
+     - ASPNETCORE_ENVIRONMENT=Production
+     - ConnectionStrings=Server=workspace-db-mssql;Database=WorkSpace;User ID=sa;Password=P@ssword
+    ports:
+      - 5000:4500
+    networks: 
+      - workspace-network
+    depends_on:
+     - workspace-db-mssql
+volumes: 
+  workspace-db-mssql-volume:
+networks: 
+  workspace-network:
+    driver: bridge
