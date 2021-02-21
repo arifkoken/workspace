@@ -19,7 +19,7 @@ services:
     restart: always
     environment: 
      - ASPNETCORE_ENVIRONMENT=Production
-     - ConnectionStrings=Server=workspace-db-mssql;Database=WorkSpace;User ID=sa;Password=P@ssword
+     - ConnectionStrings=Server=workspace-db-mssql;Database=Workspace;User ID=sa;Password=P@ssword
     ports:
       - 5000:4500
     networks: 
