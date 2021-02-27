@@ -26,6 +26,16 @@ services:
       - workspace-network
     depends_on:
      - workspace-db-mssql
+  workspace-app-ui-vue:
+    container_name: workspace-app-ui-vue
+    build: ./workspace.app.ui.vue
+    restart: always
+    ports: 
+      - 8080:80
+    networks: 
+      - workspace-network
+    depends_on: 
+      - workspace-app-api
 volumes: 
   workspace-db-mssql-volume:
 networks: 

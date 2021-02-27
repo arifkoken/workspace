@@ -20,6 +20,14 @@ namespace workspace.app.api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+        {
+            options.AddPolicy(name: "myCors",
+                              builder =>
+                              {
+                                  builder.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                              });
+        });
             services.AddDbContext<WorkspaceContext>(opt =>
             {
                 opt.UseSqlServer(Configuration["ConnectionStrings"]);
@@ -35,7 +43,8 @@ namespace workspace.app.api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
+            app.UseCors("myCors");
 
             app.UseRouting();
 
